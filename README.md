@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/elavoie/pando-server.svg?branch=master)](https://travis-ci.org/elavoie/pando-server)
+
 # pando-server
 Server for bootstrapping a pando network and serving the volunteer code.
 
