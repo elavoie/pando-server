@@ -11,7 +11,8 @@ tape('Starting test', function (t) {
   var s = Server({
     secret: secret,
     port: port,
-    publicDir: path.join(__dirname, '../public')
+    publicDir: path.join(__dirname, '../public'),
+    seed: 1337
   })
   log('server started')
   t.ok(s)

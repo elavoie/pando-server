@@ -16,6 +16,14 @@ Server for bootstrapping a pando network and serving the volunteer code.
     {
         secret: 'INSECURE-SECRET',
         publicDir: '<pando-server-dir>/public',
-        port: 5000     
+        port: 5000,
+        seed: null
     }
 
+`opts.secret` is the secret used by the root node to connect and upload files.
+
+`opts.publicDir` is the public directory to use to serve files over http.
+
+`opts.port` is the port number on which to start the server.
+
+`opts.seed` is the seed to use for pseudo-random number generation (such as for Channel.id). If null, use the crypto.randomBytes method.

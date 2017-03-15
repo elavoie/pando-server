@@ -13,6 +13,7 @@ function Server (opts) {
   var secret = opts.secret || 'INSECURE-SECRET'
   var publicDir = opts.publicDir || path.join(__dirname, '..', 'public')
   var port = opts.port || 5000
+  var seed = opts.seed || null
 
   var app = express()
   var httpServer = http.createServer(app)
@@ -24,7 +25,8 @@ function Server (opts) {
   })
   this._httpServer = httpServer
   this._bootstrap = new BootstrapServer(secret, {
-    httpServer: httpServer
+    httpServer: httpServer,
+    seed: seed
   })
 
   return this
