@@ -1,6 +1,6 @@
 {
   "name": "pando-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Server for bootstrapping a pando network and serving the volunteer code.",
   "main": "src/index.js",
   "bin": "bin/index.js",
