@@ -1,6 +1,6 @@
 {
   "name": "pando-server",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Server for bootstrapping a pando network and serving the volunteer code.",
   "main": "src/index.js",
   "bin": "bin/index.js",
@@ -27,10 +27,12 @@
   },
   "homepage": "https://github.com/elavoie/pando-server#readme",
   "dependencies": {
-    "debug": "^2.6.2",
+    "debug": "^2.6.3",
     "express": "^4.15.2",
+    "randombytes": "^2.0.3",
     "simple-updatable-website": "^1.0.0",
-    "webrtc-bootstrap-server": "^3.0.0"
+    "webrtc-bootstrap-server": "^3.0.0",
+    "ws": "^2.2.2"
   },
   "devDependencies": {
     "tape": "^4.6.3"

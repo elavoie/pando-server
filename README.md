@@ -24,17 +24,20 @@ Server for bootstrapping a pando network and serving the volunteer code.
 `opts` is an optional object with the options below, given with their default values:
 
     {
-        secret: 'INSECURE-SECRET',
+        monitoringInterval: 5, // in seconds
         publicDir: '<pando-server-dir>/public',
         port: 5000,
+        secret: 'INSECURE-SECRET',
         seed: null
     }
 
-`opts.secret` is the secret used by the root node to connect and upload files.
+`opts.monitoringInterval` is the refresh rate for sending monitoring events.
 
 `opts.publicDir` is the public directory to use to serve files over http.
 
 `opts.port` is the port number on which to start the server.
+
+`opts.secret` is the secret used by the root node to connect and upload files.
 
 `opts.seed` is the seed to use for pseudo-random number generation (such as for Channel.id). If null, use the crypto.randomBytes method.
 
