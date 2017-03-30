@@ -1,6 +1,6 @@
 {
   "name": "pando-server",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "Server for bootstrapping a pando network and serving the volunteer code.",
   "main": "src/index.js",
   "bin": "bin/index.js",
@@ -35,6 +35,7 @@
     "ws": "^2.2.2"
   },
   "devDependencies": {
+    "simple-websocket": "^5.0.0",
     "tape": "^4.6.3"
   }
 }

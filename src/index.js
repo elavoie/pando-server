@@ -3,7 +3,6 @@ var express = require('express')
 var path = require('path')
 var website = require('simple-updatable-website')
 var BootstrapServer = require('webrtc-bootstrap-server')
-var ws = require('ws')
 var debug = require('debug')
 var log = debug('pando-server')
 var randombytes = require('randombytes')
@@ -86,15 +85,7 @@ function Server (opts) {
     log('sendSummary()')
     var summary = {
       connectionNb: connectionNb,
-      errors: {}
-    }
-
-    for (var id in statuses) {
-      var s = statuses[id]
-
-      if (s.error) {
-        summary.errors[s.id] = s.error
-      }
+      statuses: statuses
     }
 
     if (self._monitor) {
@@ -103,9 +94,7 @@ function Server (opts) {
     }
   }
 
-  this._monitoring = new ws.Server({
-    server: httpServer
-  })
+  this._bootstrap.server
     .on('connection/monitoring/processor',
       function (ws) {
         log('connection/monitoring/processor')
