@@ -73,7 +73,7 @@ function Server (opts) {
     log('removeClient(' + ws.id + ')')
     if (connections.hasOwnProperty(ws.id)) {
       delete connections[ws.id]
-      connectionNb++
+      connectionNb--
     }
     if (statuses.hasOwnProperty(ws.id)) {
       delete statuses[ws.id]
