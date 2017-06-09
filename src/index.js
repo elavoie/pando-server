@@ -6,6 +6,7 @@ var BootstrapServer = require('webrtc-bootstrap-server')
 var debug = require('debug')
 var log = debug('pando-server')
 var randombytes = require('randombytes')
+var ee = require('event-emitter')
 
 function periodic (fn, delay) {
   var timeout = null
@@ -124,10 +125,16 @@ function Server (opts) {
           self._monitor = null
         })
       })
+    .on('listening',
+      function () {
+        self.emit('listening')
+      })
 
   this._updater = periodic(sendSummary, monitoringInverval * 1000).start()
   return this
 }
+
+ee(Server.prototype)
 
 Server.prototype.close = function () {
   this._httpServer.close()

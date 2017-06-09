@@ -1,6 +1,6 @@
 {
   "name": "pando-server",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Server for bootstrapping a pando network and serving the volunteer code.",
   "main": "src/index.js",
   "bin": "bin/index.js",
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/elavoie/pando-server#readme",
   "dependencies": {
     "debug": "^2.6.3",
+    "event-emitter": "^0.3.5",
     "express": "^4.15.2",
     "randombytes": "^2.0.3",
     "simple-updatable-website": "^1.0.0",

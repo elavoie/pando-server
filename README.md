@@ -41,3 +41,6 @@ Server for bootstrapping a pando network and serving the volunteer code.
 
 `opts.seed` is the seed to use for pseudo-random number generation (such as for Channel.id). If null, use the crypto.randomBytes method.
 
+### Event: 'listening'
+
+Emitted when the underlying server has been bound.
