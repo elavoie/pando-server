@@ -1,6 +1,6 @@
 {
   "name": "pando-server",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Server for bootstrapping a pando network and serving the volunteer code.",
   "main": "src/index.js",
   "bin": "bin/index.js",
@@ -8,6 +8,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "node bin/index.js",
     "test": "tape test/index.js"
   },
   "repository": {
