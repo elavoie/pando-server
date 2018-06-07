@@ -5,11 +5,12 @@ var Server = require('..')
 
 var port = process.env.PORT || 5000
 var secret = process.env.SECRET || 'INSECURE-SECRET'
+var publicDir = process.env.PUBLICDIR || path.join(__dirname, '../public')
 
 var server = new Server({
   port: port,
   secret: secret,
-  publicDir: path.join(__dirname, '../public')
+  publicDir: publicDir
 })
 if (!server) throw new Error('Invalid server')
 
