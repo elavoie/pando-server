@@ -32,7 +32,7 @@
     "event-emitter": "^0.3.5",
     "express": "^4.15.2",
     "randombytes": "^2.0.3",
-    "simple-updatable-website": "^1.0.0",
+    "simple-updatable-website": "^1.1.2",
     "webrtc-bootstrap-server": "^3.0.0",
     "ws": "^2.2.2"
   },
