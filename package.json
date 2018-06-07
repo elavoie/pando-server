@@ -11,6 +11,10 @@
     "start": "DEBUG=pando-server,simple-updatable-website-server PUBLICDIR=/tmp node bin/index.js",
     "test": "tape test/index.js"
   },
+  "engines": {
+    "node": "7.4.0",
+    "npm": "4.0.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/elavoie/pando-server.git"
