@@ -8,8 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "node bin/index.js",
-    "start:debug": "DEBUG=pando-server,simple-updatable-website-server node bin/index.js",
+    "start": "DEBUG=pando-server,simple-updatable-website-server node bin/index.js",
     "test": "tape test/index.js"
   },
   "repository": {
