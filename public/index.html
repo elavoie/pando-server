@@ -16,8 +16,115 @@
         line-height: 1.4;
       }
     </style>
+
+    <script>
+      console.log = function (s) {
+        var li = document.createElement('li');
+        li.innerHTML = s;
+        document.querySelector('#console').appendChild(li);
+      }
+    </script>
   </head>
 <body>
-  Pando server 
+  <div id='visualization'></div>
+  <h1>status</h1>
+  <p><a id='status'></a></p>
+  <h1>console.log</h1>
+  <ul id='console'></ul>
+  <script src='simplewebsocket.min.js'></script>
+  <script src='volunteer.js'></script>
+  <script src='bundle.js'></script>
+  <script src='config.js'></script>
+  <script>
+    var host = location.origin.replace(/^http:\/\//, '')
+
+    var seconds = 3
+    var restarting = false
+    var connectTimeout = null
+    var reporter = null
+
+    function restart () {
+      if (restarting) return
+      console.log('restart()')
+      restarting = true
+      if (processor) processor.close()
+      processor = null
+      countdown(seconds, 'Connecting', start)
+    }
+
+    function countdown (seconds, actionText, cb) {
+      if (seconds <= 0) {
+        document.querySelector('#status').textContent = actionText;
+        cb()
+      } else {
+        document.querySelector('#status').textContent = actionText + ' in ' + seconds + ' seconds'
+        setTimeout(function () { countdown(seconds-1, actionText, cb) }, 1000)
+      }
+    }
+
+    function start () {
+      console.log('start()')
+      var processor = null
+      setTimeout(function () {
+        if (location.hash === '#ws') {
+          //volunteer['ws'](host, bundle)
+        } else if (location.hash === '#webrtc') {
+          processor = volunteer['webrtc'](host, bundle, window.pando.config)
+        } else {
+          processor = volunteer['webrtc'](host, bundle, window.pando.config)
+        }
+        processor.on('status', function (summary) {
+          document.querySelector('#status').textContent = JSON.stringify(summary, null, '    ')
+          if (reporter) {
+            console.log('reporting status')
+            reporter.send(JSON.stringify(summary))
+          }
+        })
+        processor.on('close', function () {
+          restart()
+          if (reporter) {
+            console.log('reporting processor closed')
+            reporter.send(JSON.stringify({ type: 'STATUS', closed: true }))
+          }
+        })
+        processor.on('error', function (err) {
+          restart()
+          if (reporter) {
+            console.log('reporting processor error')
+            reporter.send(JSON.stringify({ type: 'STATUS', error: err }))
+          }
+        })
+        processor.on('ready', function () {
+          console.log('cleared restart timeout')
+          clearTimeout(connectTimeout)
+          restarting = false
+        })
+
+        // If connection does not succeed, keep retrying until it does
+        console.log('setting restart timeout')
+        connectTimeout = setTimeout(function () {
+            console.log('connection timeout')
+            if (reporter) {
+              console.log('reporting connection timeout')
+              reporter.send(JSON.stringify({ type: 'STATUS', error: 'Connection timeout, restarting' }))
+            }
+            restarting = false
+            restart()
+        }, 30 * 1000)
+
+        window.processor = processor
+      }, Math.floor(Math.random() * 1000)) // Random delay of up to 1s to avoid all nodes connecting at the same time
+    }
+
+    countdown(0, 'Connecting', start)
+
+    if (window.pando.config.globalMonitoring) {
+      var socket = SimpleWebsocket('ws://' + host + '/monitoring/processor')
+      socket.on('connect', function () {
+        console.log('reporter connected')
+        reporter = socket  
+      })
+    } 
+  </script>
 </body>
 </html>
