@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "DEBUG=pando-server,simple-updatable-website-server node bin/index.js",
+    "start": "DEBUG=pando-server,simple-updatable-website-server PUBLICDIR=/tmp node bin/index.js",
     "test": "tape test/index.js"
   },
   "repository": {
