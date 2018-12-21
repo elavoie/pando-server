@@ -48,6 +48,7 @@ function Server (opts) {
     secret: secret,
     public: publicDir
   })
+  this._app = app
   this._httpServer = httpServer
   this._bootstrap = new BootstrapServer(secret, {
     httpServer: httpServer,
