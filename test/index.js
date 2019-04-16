@@ -34,31 +34,33 @@ tape('Monitoring test', function (t) {
   log('server started')
   t.ok(server)
 
-  var monitor = new SimpleWebSocket('ws://localhost:' + port + '/monitoring/monitor')
-  monitor.on('data', function (data) {
-    var summary = JSON.parse(data)
-    var messages = {}
+  server.on('listening', function () {
+    var monitor = new SimpleWebSocket('ws://localhost:' + port + '/monitoring/monitor')
+    monitor.on('data', function (data) {
+      var summary = JSON.parse(data)
+      var messages = {}
 
-    t.equal(summary.connectionNb, 2)
+      t.equal(summary.connectionNb, 2)
 
-    for (var id in summary.statuses) {
-      var s = summary.statuses[id]
-      messages[s.message] = true
-    }
+      for (var id in summary.statuses) {
+        var s = summary.statuses[id]
+        messages[s.message] = true
+      }
 
-    t.deepEqual(messages, { 'hello': true, 'world': true })
-    log('closing server')
-    server.close()
-    t.end()
-  })
+      t.deepEqual(messages, { 'hello': true, 'world': true })
+      log('closing server')
+      server.close()
+      t.end()
+    })
 
-  var processor1 = new SimpleWebSocket('ws://localhost:' + port + '/monitoring/processor')
-  var processor2 = new SimpleWebSocket('ws://localhost:' + port + '/monitoring/processor')
+    var processor1 = new SimpleWebSocket('ws://localhost:' + port + '/monitoring/processor')
+    var processor2 = new SimpleWebSocket('ws://localhost:' + port + '/monitoring/processor')
 
-  processor1.on('connect', function () {
-    processor1.send(JSON.stringify({ 'message': 'hello' }))
-  })
-  processor2.on('connect', function () {
-    processor2.send(JSON.stringify({ 'message': 'world' }))
+    processor1.on('connect', function () {
+      processor1.send(JSON.stringify({ 'message': 'hello' }))
+    })
+    processor2.on('connect', function () {
+      processor2.send(JSON.stringify({ 'message': 'world' }))
+    })
   })
 })

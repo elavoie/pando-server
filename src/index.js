@@ -2,7 +2,7 @@ var http = require('http')
 var express = require('express')
 var path = require('path')
 var website = require('simple-updatable-website')
-var BootstrapServer = require('webrtc-bootstrap-server')
+var BootstrapServer = require('webrtc-bootstrap').Server
 var debug = require('debug')
 var log = debug('pando-server')
 var randombytes = require('randombytes')
@@ -42,7 +42,6 @@ function Server (opts) {
 
   var app = express()
   var httpServer = http.createServer(app)
-  httpServer.listen(port)
 
   website.route(app, {
     secret: secret,
@@ -96,28 +95,28 @@ function Server (opts) {
     }
   }
 
-  this._bootstrap.server
-    .on('connection/monitoring/processor',
+  this._bootstrap
+    .upgrade('/monitoring/processor',
       function (ws) {
-        log('connection/monitoring/processor')
+        log('/monitoring/processor')
         var id = addClient(ws)
         ws.on('message', function (data) {
           var status = JSON.parse(data)
           statuses[id] = status
         })
         ws.on('error', function (err) {
-          log('connection/client error:')
+          log('monitoring/processor error:')
           log(err)
           removeClient(ws)
         })
         ws.on('close', function () {
-          log('connection/client closed')
+          log('monitoring/processor closed')
           removeClient(ws)
         })
       })
-    .on('connection/monitoring/monitor',
+    .upgrade('/monitoring/monitor',
       function (ws) {
-        log('connection/monitoring/monitor')
+        log('monitoring/monitor')
         self._monitor = ws
         ws.on('close', function () {
           self._monitor = null
@@ -126,11 +125,10 @@ function Server (opts) {
           self._monitor = null
         })
       })
-    .on('listening',
-      function () {
-        self.emit('listening')
-      })
 
+  httpServer.listen(port, function () {
+    self.emit('listening')
+  })
   this._updater = periodic(sendSummary, monitoringInverval * 1000).start()
   return this
 }
